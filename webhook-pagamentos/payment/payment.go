@@ -26,7 +26,7 @@ func chooseWithProbability() string {
 	randomNumber := rand.Intn(100)
 
 	if randomNumber < 90 {
-		return "aceito"
+		return "Recebido"
 	}
-	return "negado"
+	return "Negado"
 }
