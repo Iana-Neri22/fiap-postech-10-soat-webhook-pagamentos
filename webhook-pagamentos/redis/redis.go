@@ -15,7 +15,7 @@ type WebhookPayload struct {
    WebhookId string `json:"webhookId"`  
    Data      struct {  
       IdPagamento   string `json:"idPagamento"`  
-      Valor 		string `json:"valor"`  
+      Valor 		float32 `json:"valor"`  
       Status   		string `json:"status"`  
       DataCriacao	string `json:"dataCriacao"`  
    } `json:"data"`  

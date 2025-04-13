@@ -12,7 +12,7 @@ import (
 // Payload represents the structure of the data expected to be sent as a webhook  
 type Payload struct {  
    IdPagamento  string  
-   Valor   		string  
+   Valor   		float32  
    Status      	string  
    DataCriacao 	string  
 }

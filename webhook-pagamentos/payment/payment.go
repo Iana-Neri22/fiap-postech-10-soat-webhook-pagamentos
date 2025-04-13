@@ -7,7 +7,7 @@ import (
 
 type PaymentRequest struct {
 	IdPagamento string
-	Valor       string
+	Valor       float32
 	Status      string
 	DataCriacao string
 }
