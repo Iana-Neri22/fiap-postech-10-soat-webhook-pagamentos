@@ -6,7 +6,6 @@ import (
    "time"  
    "webhook-pagamentos/sender"  
    "webhook-pagamentos/payment"
-   //"os"
 
    redisClient "webhook-pagamentos/redis"  
 )

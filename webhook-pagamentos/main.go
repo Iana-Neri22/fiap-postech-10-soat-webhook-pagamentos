@@ -1,41 +1,43 @@
-package main  
+package main
 
-import (  
-   "context"  
-   "log"  
-   "os"  
+import (
+	"net/http"
+	"webhook-pagamentos/payment"
 
-   redisClient "webhook-pagamentos/redis"  
+	"github.com/gin-gonic/gin"
+)
 
-   "webhook-pagamentos/queue"  
-
-   "github.com/go-redis/redis/v8" // Make sure to use the correct version  
-)  
-
-func main() {  
-   // Create a context  
-   ctx, cancel := context.WithCancel(context.Background())  
-   defer cancel()  
-
-   // Initialize the Redis client  
-   client := redis.NewClient(&redis.Options{  
-      Addr:     os.Getenv("REDIS_ADDRESS"), // Use an environment variable to set the address  
-      Password: "",                         // No password  
-      DB:       0,                          // Default DB  
-   })  
-
-   // Create a channel to act as the queue  
-   webhookQueue := make(chan redisClient.WebhookPayload, 100) // Buffer size 100  
-
-   go queue.ProcessWebhooks(ctx, webhookQueue)  
-
-   // Subscribe to the "transactions" channel  
-   err := redisClient.Subscribe(ctx, client, webhookQueue)  
-
-   if err != nil {  
-      log.Println("Error:", err)  
-   }  
-
-   select {}  
-
+type PagamentoInput struct {
+	IdPagamento int     `json:"id_pagamento" binding:"required"`
+	Valor       float32 `json:"valor" binding:"required"`
 }
+
+type PagamentoResponse struct {
+	IdPagamento int    `json:"id_pagamento"`
+	Status      string `json:"status"`
+}
+
+func main() {
+	r := gin.Default()
+
+	r.POST("/pagamento", func(c *gin.Context) {
+		var input PagamentoInput
+
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		status := payment.ProcessPayment()
+
+		c.JSON(http.StatusOK, PagamentoResponse{
+			IdPagamento: input.IdPagamento,
+			Status:      status,
+		})
+	})
+
+	r.Run(":8080")
+}
+
+// This is a simple HTTP server that processes payment requests.
+// It listens for POST requests on the `/pagamento` endpoint, validates the input

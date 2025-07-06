@@ -12,7 +12,7 @@ type PaymentRequest struct {
 	DataCriacao string
 }
 
-func ProcessPayment(request PaymentRequest) (string) {
+func ProcessPayment() (string) {
 
 	rand.Seed(time.Now().UnixNano())
 
