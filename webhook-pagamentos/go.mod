@@ -1,8 +1,12 @@
 module webhook-pagamentos
 
-go 1.21.0
+go 1.23.5
 
-require github.com/go-redis/redis/v8 v8.11.5
+require (
+	github.com/aws/aws-lambda-go v1.49.0
+	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
+	github.com/gin-gonic/gin v1.10.1
+)
 
 require (
 	github.com/bytedance/sonic v1.11.6 // indirect
@@ -31,10 +35,4 @@ require (
 	golang.org/x/text v0.15.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-)
-
-require (
-	github.com/cespare/xxhash/v2 v2.1.2 // indirect
-	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/gin-gonic/gin v1.10.1
 )
